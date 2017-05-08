@@ -65,7 +65,7 @@ processResources {
 
 
 String getVersion() {
-    String version = "${version}"
+    String version = "${mod_version}"
     String buildNumber = getBuildNumber()
     if (buildNumber != "") {
         version += "." + buildNumber
@@ -135,7 +135,7 @@ curseforge {
         releaseType = 'alpha'
         changelog = getGitChangelog()
         changelogType = 'markdown'
-        addGameVersion "${version_minecraft}"
+        addGameVersion "${minecraft_version}"
         addArtifact(createDeobf)
         addArtifact(createSources)
         addArtifact(createJavadoc)
