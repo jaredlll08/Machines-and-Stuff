@@ -2,15 +2,17 @@ buildscript {
     repositories {
         jcenter()
         maven { url = "http://files.minecraftforge.net/maven" }
+        maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.0.8"
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: "com.matthewprenger.cursegradle"
 
-
-version = "1.0.0"
+version = getVersion();
 group = "com.blamejared.mas"
 archivesBaseName = "MachinesAndStuff"
 
@@ -20,7 +22,7 @@ compileJava {
 }
 
 minecraft {
-    version = "1.11.2-13.20.0.2296"
+    version = "${minecraft_version}-${forge_version}"
     runDir = "run"
     mappings = "snapshot_20161220"
 }
@@ -58,5 +60,106 @@ processResources {
         
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
+    }
+}
+
+
+String getVersion() {
+    String version = "${version}"
+    String buildNumber = getBuildNumber()
+    if (buildNumber != "") {
+        version += "." + buildNumber
+    }
+
+    return version
+}
+
+static String getBuildNumber() {
+    String buildNumber = System.getenv("BUILD_NUMBER") != null ? System.getenv("BUILD_NUMBER") : ""
+    if (buildNumber == "") {
+        buildNumber = System.getenv("bamboo_buildNumber") != null ? "." + System.getenv("bamboo_buildNumber") : ""
+    }
+    return buildNumber
+}
+
+task createDeobf(type: Jar) {
+
+    from sourceSets.main.output
+    classifier = 'deobf'
+}
+
+task createSources(type: Jar, dependsOn: classes) {
+
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+task createJavadoc(type: Jar, dependsOn: javadoc) {
+
+    from javadoc.destinationDir
+    classifier = 'javadoc'
+}
+// Taken from https://github.com/Inventory-Tweaks/inventory-tweaks/blob/develop/build.gradle
+def getGitChangelog = { ->
+    try {
+        def stdout = new ByteArrayOutputStream()
+        def gitHash = System.getenv('GIT_COMMIT')
+        def gitPrevHash = System.getenv('GIT_PREVIOUS_COMMIT')
+        def travisRange = System.getenv('TRAVIS_COMMIT_RANGE')
+        if (gitHash && gitPrevHash) {
+            exec {
+                commandLine 'git', 'log', '--pretty=tformat:- %s', '' + gitPrevHash + '...' + gitHash
+                standardOutput = stdout
+            }
+            return stdout.toString().trim()
+        } else if (travisRange) {
+            exec {
+                commandLine 'git', 'log', '--pretty=tformat:- %s', '' + travisRange
+                standardOutput = stdout
+            }
+            return stdout.toString().trim()
+        } else {
+            return "";
+        }
+    } catch (ignored) {
+        return "";
+    }
+}
+curseforge {
+
+    apiKey = System.getenv('authCurse') ? System.getenv('authCurse') : '0';
+
+    project {
+
+        id = "${id_curse}"
+        releaseType = 'alpha'
+        changelog = getGitChangelog()
+        changelogType = 'markdown'
+        addGameVersion "${version_minecraft}"
+        addArtifact(createDeobf)
+        addArtifact(createSources)
+        addArtifact(createJavadoc)
+    }
+}
+
+artifacts {
+
+    archives createDeobf
+    archives createSources
+    archives createJavadoc
+}
+configurations {
+    deployerJars
+}
+
+dependencies {
+    deployerJars 'org.apache.maven.wagon:wagon-ftp:2.2'
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "file:///var/www/html/maven")
+        }
     }
 }
