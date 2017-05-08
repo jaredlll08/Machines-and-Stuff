@@ -3,7 +3,7 @@ package com.blamejared.mas.blocks.generators.base;
 import com.blamejared.mas.MAS;
 import com.blamejared.mas.network.PacketHandler;
 import com.blamejared.mas.network.messages.tiles.generator.MessageGenerator;
-import net.minecraft.block.*;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.*;
 import net.minecraft.block.state.*;
@@ -14,15 +14,19 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.relauncher.*;
+
+import java.lang.reflect.InvocationTargetException;
 
 public abstract class BlockBaseGenerator extends BlockContainer {
     
     public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     public static final PropertyBool isActive = PropertyBool.create("active");
     
-    public BlockBaseGenerator() {
+    private final Class<? extends TileEntity> tileClass;
+    
+    public BlockBaseGenerator(Class<? extends TileEntity> tileClass) {
         super(Material.IRON);
+        this.tileClass = tileClass;
     }
     
     public static void setState(boolean active, World worldIn, BlockPos pos) {
@@ -83,6 +87,16 @@ public abstract class BlockBaseGenerator extends BlockContainer {
     
     public EnumBlockRenderType getRenderType(IBlockState state) {
         return EnumBlockRenderType.MODEL;
+    }
+    
+    @Override
+    public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
+        try {
+            return tileClass.getConstructor().newInstance();
+        } catch(InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
     
 }
