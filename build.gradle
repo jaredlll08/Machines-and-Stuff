@@ -11,6 +11,7 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: "com.matthewprenger.cursegradle"
+apply plugin: 'maven'
 
 version = getVersion();
 group = "com.blamejared.mas"
@@ -24,7 +25,7 @@ compileJava {
 minecraft {
     version = "${minecraft_version}-${forge_version}"
     runDir = "run"
-    mappings = "snapshot_20161220"
+    mappings = "${mappings_version}"
 }
 repositories {
     mavenLocal()
