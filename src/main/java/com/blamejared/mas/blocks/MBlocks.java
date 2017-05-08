@@ -1,8 +1,8 @@
 package com.blamejared.mas.blocks;
 
-import com.blamejared.mas.blocks.generators.BlockCoalGenerator;
+import com.blamejared.mas.blocks.generators.*;
 import com.blamejared.mas.reference.Reference;
-import com.blamejared.mas.tileentities.generators.TileEntityCoalGenerator;
+import com.blamejared.mas.tileentities.generators.*;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemBlock;
@@ -20,10 +20,13 @@ public class MBlocks {
     
     public static Map<String, Block> renderMap = new HashMap<>();
     
-    public static Block GENERATOR_COAL = new BlockCoalGenerator();
+    public static Block GENERATOR_COAL = new BlockGeneratorCoal();
+    public static Block GENERATOR_TRASH = new BlockGeneratorTrash();
+    
     
     public static void preInit() {
-        registerBlock(GENERATOR_COAL, "generator_coal", TileEntityCoalGenerator.class);
+        registerBlock(GENERATOR_COAL, "generator_coal", TileEntityGeneratorCoal.class);
+        registerBlock(GENERATOR_TRASH, "generator_trash", TileEntityGeneratorTrash.class);
     }
     
     private static void registerBlock(Block block, String key) {

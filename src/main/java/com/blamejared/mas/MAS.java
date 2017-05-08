@@ -2,7 +2,7 @@ package com.blamejared.mas;
 
 import com.blamejared.mas.api.Registry;
 import com.blamejared.mas.blocks.MBlocks;
-import com.blamejared.mas.data.GeneratorData;
+import com.blamejared.mas.data.*;
 import com.blamejared.mas.items.MItems;
 import com.blamejared.mas.network.PacketHandler;
 import com.blamejared.mas.proxies.CommonProxy;
@@ -36,6 +36,7 @@ public class MAS {
         PROXY.registerRenderers();
         PROXY.registerGuis();
         GeneratorData.init();
+        RecipeData.init();
     }
     
     @Mod.EventHandler

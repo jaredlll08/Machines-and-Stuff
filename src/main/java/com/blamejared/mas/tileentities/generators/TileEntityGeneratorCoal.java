@@ -4,9 +4,9 @@ import com.blamejared.mas.api.Registry;
 import com.blamejared.mas.api.generators.GeneratorBase;
 import net.minecraft.item.ItemStack;
 
-public class TileEntityCoalGenerator extends GeneratorBase {
+public class TileEntityGeneratorCoal extends GeneratorBase {
     
-    public TileEntityCoalGenerator() {
+    public TileEntityGeneratorCoal() {
         super(50000, 1);
     }
     

@@ -1,14 +1,14 @@
-package com.blamejared.mas.client.gui.coalGenerator;
+package com.blamejared.mas.client.gui.generatorTrash;
 
 import com.blamejared.mas.client.gui.base.ContainerBase;
 import com.blamejared.mas.client.gui.slot.SlotTileDep;
-import com.blamejared.mas.tileentities.generators.TileEntityCoalGenerator;
+import com.blamejared.mas.tileentities.generators.TileEntityGeneratorTrash;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 
-public class ContainerCoalGenerator extends ContainerBase {
+public class ContainerGeneratorTrash extends ContainerBase {
     
-    public ContainerCoalGenerator(InventoryPlayer invPlayer, TileEntityCoalGenerator tile) {
+    public ContainerGeneratorTrash(InventoryPlayer invPlayer, TileEntityGeneratorTrash tile) {
         addSlotToContainer(new SlotTileDep(tile.itemStackHandler, 0, 80, 11));
         for(int x = 0; x < 9; x++) {
             addSlotToContainer(new Slot(invPlayer, x, 8 + 18 * x, 142));

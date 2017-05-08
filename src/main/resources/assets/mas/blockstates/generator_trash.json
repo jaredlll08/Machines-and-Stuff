@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "active=false,facing=north": {
+      "model": "mas:generator_trash"
+    },
+    "active=false,facing=south": {
+      "model": "mas:generator_trash",
+      "y": 180
+    },
+    "active=false,facing=west": {
+      "model": "mas:generator_trash",
+      "y": 270
+    },
+    "active=false,facing=east": {
+      "model": "mas:generator_trash",
+      "y": 90
+    },
+    "active=true,facing=north": {
+      "model": "mas:generator_trash_active"
+    },
+    "active=true,facing=south": {
+      "model": "mas:generator_trash_active",
+      "y": 180
+    },
+    "active=true,facing=west": {
+      "model": "mas:generator_trash_active",
+      "y": 270
+    },
+    "active=true,facing=east": {
+      "model": "mas:generator_trash_active",
+      "y": 90
+    }
+  }
+}

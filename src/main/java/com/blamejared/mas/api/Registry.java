@@ -25,6 +25,9 @@ public class Registry {
         public static ArrayList<ItemStack> trashGeneratorBlacklist = new ArrayList<ItemStack>();
         
         public static boolean canTrash(ItemStack item) {
+            if(item.isEmpty()){
+                return false;
+            }
             for(ItemStack stack : trashGeneratorBlacklist) {
                 if(stack.isItemEqual(item)) {
                     return false;

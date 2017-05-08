@@ -1,0 +1,8 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "top": "mas:blocks/machine_other",
+        "front": "mas:blocks/generator_trash_active",
+        "side": "mas:blocks/machine_side"
+    }
+}

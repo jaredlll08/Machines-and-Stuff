@@ -1,28 +1,26 @@
-package com.blamejared.mas.client.gui.coalGenerator;
+package com.blamejared.mas.client.gui.generatorTrash;
 
 import com.blamejared.mas.api.Registry;
 import com.blamejared.mas.client.gui.base.GuiBase;
 import com.blamejared.mas.reference.Reference;
-import com.blamejared.mas.tileentities.generators.TileEntityCoalGenerator;
+import com.blamejared.mas.tileentities.generators.TileEntityGeneratorTrash;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-import java.util.function.Predicate;
-
-public class GUICoalGenerator extends GuiBase {
+public class GuiGeneratorTrash extends GuiBase {
     
-    private TileEntityCoalGenerator tile;
+    private TileEntityGeneratorTrash tile;
     
-    public GUICoalGenerator(InventoryPlayer invPlayer, TileEntityCoalGenerator tile2) {
-        super(new ContainerCoalGenerator(invPlayer, tile2), tile2, invPlayer.player, "");
+    public GuiGeneratorTrash(InventoryPlayer invPlayer, TileEntityGeneratorTrash tile2) {
+        super(new ContainerGeneratorTrash(invPlayer, tile2), tile2, invPlayer.player, "");
         this.tile = tile2;
         this.outlines = true;
     }
     
     @Override
     public ResourceLocation getTexture() {
-        return new ResourceLocation(Reference.MODID, "textures/gui/coal_generator.png");
+        return new ResourceLocation(Reference.MODID, "textures/gui/generator_trash.png");
     }
     
     @Override
@@ -34,7 +32,7 @@ public class GUICoalGenerator extends GuiBase {
     protected void drawGuiContainerForegroundLayer(int mx, int my) {
         super.drawGuiContainerForegroundLayer(mx, my);
         
-        this.drawGeneratorProgress(82, 38, tile);
+        this.drawGeneratorProgress(81, 36, tile);
         this.drawPowerBar(tile.container);
     }
 }
