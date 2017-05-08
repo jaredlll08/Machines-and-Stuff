@@ -25,7 +25,7 @@ public class GuiGeneratorTrash extends GuiBase {
     
     @Override
     public boolean shouldOutline(ItemStack stack) {
-        return Registry.BasicCoalGenerator.containsItemStack(stack);
+        return Registry.TrashGenerator.canTrash(stack);
     }
     
     @Override
