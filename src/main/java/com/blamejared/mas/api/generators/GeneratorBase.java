@@ -77,9 +77,10 @@ public abstract class GeneratorBase extends TileEntity implements ITickable {
             if(!world.isRemote)
                 sendUpdate = true;
         }
-        if(pushEnergy()) {
-            sendUpdate = true;
-        }
+        if(container.getStoredPower() > 0)
+            if(pushEnergy()) {
+                sendUpdate = true;
+            }
         if(generationTimerDefault > 0 && this.container.getStoredPower() < this.container.getCapacity()) {
             generationTimer--;
             this.container.givePower(getEnergyGenerated(), false);
