@@ -2,3 +2,4 @@ itemGroup.mas=Machines And Stuff
 
 tile.generator_coal.name=Coal Generator
 tile.generator_trash.name=Trash Generator
+tile.crank.name=Crank

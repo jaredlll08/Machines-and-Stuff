@@ -2,14 +2,17 @@ package com.blamejared.mas.proxies;
 
 import com.blamejared.mas.blocks.MBlocks;
 import com.blamejared.mas.client.gui.GuiHandler;
+import com.blamejared.mas.client.render.crank.RenderCrank;
 import com.blamejared.mas.items.MItems;
 import com.blamejared.mas.reference.Reference;
+import com.blamejared.mas.tileentities.misc.TileEntityCrank;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 
 import java.util.Map;
 
@@ -31,6 +34,8 @@ public class ClientProxy extends CommonProxy {
         for(Map.Entry<String, Block> ent : MBlocks.renderMap.entrySet()) {
             renderItem.getItemModelMesher().register(Item.getItemFromBlock(ent.getValue()), 0, new ModelResourceLocation(Reference.MODID + ":" + ent.getKey(), "inventory"));
         }
+//        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrank.class, new RenderCrank());
+        ClientRegistry.registerTileEntity(TileEntityCrank.class, "crank", new RenderCrank());
     }
     
     @Override
