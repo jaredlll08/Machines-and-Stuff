@@ -9,7 +9,7 @@ import net.minecraft.inventory.Slot;
 public class ContainerGeneratorCoal extends ContainerBase {
     
     public ContainerGeneratorCoal(InventoryPlayer invPlayer, TileEntityGeneratorCoal tile) {
-        addSlotToContainer(new SlotTileDep(tile.itemStackHandler, 0, 80, 11));
+        addSlotToContainer(new SlotTileDep(tile.itemStackHandler, 0, 80, 17));
         for(int x = 0; x < 9; x++) {
             addSlotToContainer(new Slot(invPlayer, x, 8 + 18 * x, 142));
         }
