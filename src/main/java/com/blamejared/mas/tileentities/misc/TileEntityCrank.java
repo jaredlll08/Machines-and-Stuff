@@ -50,20 +50,6 @@ public class TileEntityCrank extends TileEntity implements ITickable {
     @Override
     public void update() {
         boolean sendUpdate = false;
-        //            PacketHandler.INSTANCE.sendToAllAround(new MessageGenerator(this), new NetworkRegistry.TargetPoint(this.world.provider.getDimension(), (double) this.getPos().getX(), (double) this.getPos().getY(), (double) this.getPos().getZ(), 128d));
-        //Sets the generation timer
-        //        if(generationTimerDefault < 0 && this.container.getStoredPower() < this.container.getCapacity()) {
-        //            if(itemStackHandler.getStackInSlot(0) != null) {
-        //                if(canGenerateEnergy(itemStackHandler.getStackInSlot(0))) {
-        //                    generationTimer = getGenerationTime(itemStackHandler.getStackInSlot(0));
-        //                    generationTimerDefault = getGenerationTime(itemStackHandler.getStackInSlot(0));
-        //                    itemStackHandler.extractItem(0, 1, false);
-        //                    if(!world.isRemote)
-        //                        sendUpdate = true;
-        //
-        //                }
-        //            }
-        //        }
         if(generationTimer < 0) {
             generationTimerDefault = -1;
             generationTimer = -1;
@@ -129,7 +115,6 @@ public class TileEntityCrank extends TileEntity implements ITickable {
     
     
     @Override
-    @SuppressWarnings("unchecked")
     public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
         if(capability == TeslaCapabilities.CAPABILITY_PRODUCER)
             return (T) this.container;
