@@ -7,7 +7,6 @@ import com.blamejared.mas.tileentities.misc.TileEntityCrank;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -40,16 +39,6 @@ public class BlockCrank extends Block implements ITileEntityProvider {
     }
     
     
-    @Override
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
-        TileEntity tile = worldIn.getTileEntity(pos.down());
-        if(tile != null) {
-            if(tile.hasCapability(CAPABILITY_HOLDER, EnumFacing.UP)) {
-                return;
-            }
-        }
-        worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
-    }
     
     @Override
     public EnumBlockRenderType getRenderType(IBlockState state) {
@@ -74,7 +63,7 @@ public class BlockCrank extends Block implements ITileEntityProvider {
     @Nullable
     @Override
     public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
-        return new AxisAlignedBB(pos.getX() + 0.19, pos.getY(), pos.getZ() + 0.19, pos.getX() + 0.81, pos.getY() + 0.5, pos.getZ() + 0.81);
+        return null;
     }
     
     @Override
