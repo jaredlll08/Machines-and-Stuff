@@ -18,6 +18,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 import javax.annotation.Nullable;
 
+import static net.darkhax.tesla.capability.TeslaCapabilities.CAPABILITY_CONSUMER;
 import static net.darkhax.tesla.capability.TeslaCapabilities.CAPABILITY_HOLDER;
 
 public class BlockCrank extends Block implements ITileEntityProvider {
@@ -31,7 +32,7 @@ public class BlockCrank extends Block implements ITileEntityProvider {
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
         TileEntity tile = worldIn.getTileEntity(pos.down());
         if(tile != null) {
-            if(tile.hasCapability(CAPABILITY_HOLDER, EnumFacing.UP)) {
+            if(tile.hasCapability(CAPABILITY_HOLDER, EnumFacing.UP)|| tile.hasCapability(CAPABILITY_CONSUMER, EnumFacing.UP)) {
                 return true;
             }
         }
@@ -53,7 +54,7 @@ public class BlockCrank extends Block implements ITileEntityProvider {
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
         TileEntity tile = worldIn.getTileEntity(pos.down());
         if(tile != null) {
-            if(tile.hasCapability(CAPABILITY_HOLDER, EnumFacing.UP)) {
+            if(tile.hasCapability(CAPABILITY_HOLDER, EnumFacing.UP) || tile.hasCapability(CAPABILITY_CONSUMER, EnumFacing.UP)) {
                 return;
             }
         }
