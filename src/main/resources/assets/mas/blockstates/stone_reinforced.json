@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "normal": { "model": "mas:stone_reinforced" }
+    }
+}

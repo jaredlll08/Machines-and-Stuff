@@ -12,6 +12,7 @@ public class RecipeData {
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(MBlocks.GENERATOR_TRASH), "ifi", "fsf", "ifi", 'f', new ItemStack(Blocks.FURNACE), 's', "cobblestone", 'i', "ingotIron"));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(MBlocks.GENERATOR_COAL), "ifi", "fcf", "ifi", 'f', new ItemStack(Blocks.FURNACE), 'c', new ItemStack(Items.COAL), 'i', "ingotIron"));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(MBlocks.CRANK), " ww", "twt", "sss", 'w', "plankWood", 's', "stone", 't', new ItemStack(Blocks.STONE_SLAB)));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(MBlocks.STONE_REINFORCED), "sis", "isi", "sis", 'i', "ingotIron", 's', "stone"));
     }
     
 }
