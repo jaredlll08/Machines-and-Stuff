@@ -32,7 +32,7 @@ public abstract class GeneratorBase extends TileEntity implements ITickable {
     }
     
     public boolean isGenerating() {
-        return generationTimer > -1;
+        return generationTimer > -1 && generationTimerDefault > -1;
     }
     
     
@@ -60,7 +60,7 @@ public abstract class GeneratorBase extends TileEntity implements ITickable {
         //            PacketHandler.INSTANCE.sendToAllAround(new MessageGenerator(this), new NetworkRegistry.TargetPoint(this.world.provider.getDimension(), (double) this.getPos().getX(), (double) this.getPos().getY(), (double) this.getPos().getZ(), 128d));
         
         if(generationTimerDefault < 0 && this.container.getStoredPower() < this.container.getCapacity()) {
-            if(itemStackHandler.getStackInSlot(0) != null) {
+            if(itemStackHandler.getStackInSlot(0) != ItemStack.EMPTY) {
                 if(canGenerateEnergy(itemStackHandler.getStackInSlot(0))) {
                     generationTimer = getGenerationTime(itemStackHandler.getStackInSlot(0));
                     generationTimerDefault = getGenerationTime(itemStackHandler.getStackInSlot(0));
@@ -71,12 +71,8 @@ public abstract class GeneratorBase extends TileEntity implements ITickable {
                 }
             }
         }
-        if(generationTimer < 0) {
-            generationTimerDefault = -1;
-            generationTimer = -1;
-            if(!world.isRemote)
-                sendUpdate = true;
-        }
+        
+        
         if(container.getStoredPower() > 0)
             if(pushEnergy()) {
                 sendUpdate = true;
@@ -87,11 +83,22 @@ public abstract class GeneratorBase extends TileEntity implements ITickable {
             if(!world.isRemote)
                 sendUpdate = true;
         }
-        
+        if(generationTimer < 0 && generationTimerDefault > 0) {
+            if(itemStackHandler.getStackInSlot(0) != ItemStack.EMPTY && canGenerateEnergy(itemStackHandler.getStackInSlot(0))) {
+                generationTimer = getGenerationTime(itemStackHandler.getStackInSlot(0));
+                generationTimerDefault = getGenerationTime(itemStackHandler.getStackInSlot(0));
+                itemStackHandler.extractItem(0, 1, false);
+            } else {
+                generationTimerDefault = -1;
+                generationTimer = -1;
+            }
+            if(!world.isRemote)
+                sendUpdate = true;
+        }
         if(!world.isRemote) {
             if(sendUpdate) {
                 this.markDirty();
-                PacketHandler.INSTANCE.sendToAllAround(new MessageGenerator(this), new NetworkRegistry.TargetPoint(this.world.provider.getDimension(), (double) this.getPos().getX(), (double) this.getPos().getY(), (double) this.getPos().getZ(), 128d));
+//                PacketHandler.INSTANCE.sendToAllAround(new MessageGenerator(this), new NetworkRegistry.TargetPoint(this.world.provider.getDimension(), (double) this.getPos().getX(), (double) this.getPos().getY(), (double) this.getPos().getZ(), 128d));
                 this.world.notifyNeighborsOfStateChange(getPos(), getBlockType(), true);
             }
         }
@@ -99,7 +106,7 @@ public abstract class GeneratorBase extends TileEntity implements ITickable {
         if(!isGenerating()) {
             active = false;
         }
-        if(itemStackHandler.getStackInSlot(0) == null && !isGenerating()) {
+        if(itemStackHandler.getStackInSlot(0) == ItemStack.EMPTY) {
             active = false;
         }
         if(this.container.getStoredPower() == this.container.getCapacity()) {
