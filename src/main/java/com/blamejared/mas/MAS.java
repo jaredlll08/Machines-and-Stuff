@@ -36,12 +36,12 @@ public class MAS {
         PROXY.registerRenderers();
         PROXY.registerGuis();
         GeneratorData.init();
-        RecipeData.init();
+       
     }
     
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent e) {
-    
+        RecipeData.init();
     }
     
 }

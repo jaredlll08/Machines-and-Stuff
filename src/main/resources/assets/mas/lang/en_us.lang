@@ -2,5 +2,9 @@ itemGroup.mas=Machines And Stuff
 
 tile.generator_coal.name=Coal Generator
 tile.generator_trash.name=Trash Generator
+
+
 tile.crank.name=Crank
 tile.stone_reinforced.name=Reinforced Stone
+tile.accumulator_stone_reinforced.name=Reinforced Stone Accumulator
+tile.accumulator_iron.name=Iron Accumulator

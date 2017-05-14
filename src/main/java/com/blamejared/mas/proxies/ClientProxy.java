@@ -3,17 +3,21 @@ package com.blamejared.mas.proxies;
 import com.blamejared.mas.blocks.MBlocks;
 import com.blamejared.mas.client.gui.GuiHandler;
 import com.blamejared.mas.client.render.crank.RenderCrank;
+import com.blamejared.mas.events.ClientEvents;
 import com.blamejared.mas.items.MItems;
 import com.blamejared.mas.reference.Reference;
 import com.blamejared.mas.tileentities.misc.TileEntityCrank;
+import com.blamejared.mas.tileentities.misc.energy.TileEntityAccumulator;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 
+import java.awt.*;
 import java.util.Map;
 
 public class ClientProxy extends CommonProxy {
@@ -36,11 +40,45 @@ public class ClientProxy extends CommonProxy {
         }
 //        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrank.class, new RenderCrank());
         ClientRegistry.registerTileEntity(TileEntityCrank.class, "crank", new RenderCrank());
+        Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler((state, worldIn, pos, tintIndex) -> {
+            if(tintIndex == 0) {
+                TileEntityAccumulator tile = (TileEntityAccumulator) worldIn.getTileEntity(pos);
+                if(tile != null && tile.container != null) {
+                    long energy = tile.container.getStoredPower();
+                    long cap = tile.container.getCapacity();
+                    if(cap != 0 && energy != 0) {
+                        Color col;
+                        switch(tile.enumAccumulator) {
+                            case REINFROCED_STONE:
+                                col = new Color(energy / (cap + 0.0f), 0, 0, 1);
+                                break;
+                            case IRON:
+                                col = new Color(energy / (cap + 0.0f), 0, energy / (cap + 0.0f), 1);
+                                break;
+                            case STEEL:
+                                col = new Color(energy / (cap + 0.0f), energy / (cap + 0.0f), 0, 1);
+                                break;
+                            case FLUXED:
+                                col = new Color(0, 0.8f, energy / (cap + 0.0f), 1);
+                                break;
+                            default:
+                                col = new Color(0xFFFFFF);
+                                break;
+                        }
+                        return col.getRGB();
+                    
+                    }
+                    return 0;
+                }
+            }
+            return 0xFFFFFF;
+        }, MBlocks.ACCUMULATOR_STONE_REINFORCED, MBlocks.ACCUMULATOR_IRON);
     }
     
     @Override
     public void registerEvents() {
         super.registerEvents();
+        MinecraftForge.EVENT_BUS.register(new ClientEvents());
     }
     
     @Override

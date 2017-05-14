@@ -39,6 +39,9 @@ public abstract class TileEntityMachineBase<E extends RecipeMachineBase> extends
     private String recipeIndex = "";
     private long prevEnergy;
     
+    public TileEntityMachineBase() {
+    }
+    
     public TileEntityMachineBase(int energyCap, int invSize) {
         container = new BaseTeslaContainer(10000, 250, 250);
         itemStackHandler = new ItemStackHandlerMachine(this, 2);

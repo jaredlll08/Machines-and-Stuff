@@ -3,10 +3,10 @@ package com.blamejared.mas.client.gui.base;
 import com.blamejared.mas.api.generators.GeneratorBase;
 import com.blamejared.mas.tileentities.machine.TileEntityMachineBase;
 import com.blamejared.mas.util.RenderUtils;
+import com.mojang.realmsclient.gui.ChatFormatting;
 import net.darkhax.tesla.api.implementation.BaseTeslaContainer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiSlot;
-import net.minecraft.client.gui.inventory.*;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -17,6 +17,7 @@ import net.minecraft.util.text.translation.I18n;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import java.util.Arrays;
 import java.util.function.Predicate;
 
 public class GuiBase extends GuiContainer {
@@ -117,11 +118,17 @@ public class GuiBase extends GuiContainer {
     }
     
     //How full is power bar
-    public void drawPowerBar(BaseTeslaContainer container) {
+    public void drawPowerBar(BaseTeslaContainer container, int mx, int my) {
         GlStateManager.pushAttrib();
         int barWidth = (int) (((float) container.getStoredPower() / container.getCapacity()) * 88);
         drawTexturedModalRect(44, 60, 44, 166, barWidth, 19);
         GlStateManager.popAttrib();
+        if(mx >= guiLeft + 44 && mx <= guiLeft + 132 && my >= guiTop + 60 && my <= guiTop + 79) {
+            StringBuilder builder = new StringBuilder();
+            builder.append(container.getStoredPower()).append(ChatFormatting.DARK_AQUA).append("T").append(ChatFormatting.RESET).append("/").append(container.getCapacity()).append(ChatFormatting.DARK_AQUA).append("T");
+            String percentage = String.format("%.2f%s", ((container.getStoredPower() + 0.0) / container.getCapacity() * 100.0), "%");
+            drawHoveringText(Arrays.asList(builder.toString(), percentage), mx - guiLeft, my - guiTop);
+        }
     }
     
     //Generator progress

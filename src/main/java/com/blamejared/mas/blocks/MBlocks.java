@@ -1,10 +1,12 @@
 package com.blamejared.mas.blocks;
 
+import com.blamejared.mas.api.accumulators.EnumAccumulator;
 import com.blamejared.mas.blocks.generators.*;
-import com.blamejared.mas.blocks.misc.BlockCrank;
+import com.blamejared.mas.blocks.misc.*;
 import com.blamejared.mas.reference.Reference;
 import com.blamejared.mas.tileentities.generators.*;
 import com.blamejared.mas.tileentities.misc.TileEntityCrank;
+import com.blamejared.mas.tileentities.misc.energy.TileEntityAccumulator;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -28,12 +30,17 @@ public class MBlocks {
     public static Block CRANK = new BlockCrank();
     
     public static Block STONE_REINFORCED = new Block(Material.IRON);
+    public static BlockAccumulator ACCUMULATOR_STONE_REINFORCED = new BlockAccumulator(EnumAccumulator.REINFROCED_STONE);
+    public static BlockAccumulator ACCUMULATOR_IRON = new BlockAccumulator(EnumAccumulator.IRON);
     
     public static void preInit() {
         registerBlock(GENERATOR_COAL, "generator_coal", TileEntityGeneratorCoal.class);
         registerBlock(GENERATOR_TRASH, "generator_trash", TileEntityGeneratorTrash.class);
         registerBlock(CRANK, "crank", TileEntityCrank.class);
         registerBlock(STONE_REINFORCED, "stone_reinforced");
+        registerBlock(ACCUMULATOR_STONE_REINFORCED, "accumulator_stone_reinforced", TileEntityAccumulator.class);
+        registerBlock(ACCUMULATOR_IRON, "accumulator_iron");
+    
     }
     
     private static void registerBlock(Block block, String key) {
