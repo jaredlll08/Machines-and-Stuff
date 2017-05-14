@@ -1,4 +1,4 @@
-package com.blamejared.mas.client.gui.generatorTrash;
+package com.blamejared.mas.client.gui.generatortrash;
 
 import com.blamejared.mas.api.Registry;
 import com.blamejared.mas.client.gui.base.GuiBase;
@@ -27,6 +27,6 @@ public class GuiGeneratorTrash extends GuiBase {
     protected void drawGuiContainerForegroundLayer(int mx, int my) {
         super.drawGuiContainerForegroundLayer(mx, my);
         this.drawGeneratorProgress(83, 40, tile);
-        this.drawPowerBar(tile.container);
+        this.drawPowerBar(tile.container, mx, my);
     }
 }

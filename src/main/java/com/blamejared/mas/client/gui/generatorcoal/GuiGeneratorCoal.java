@@ -1,4 +1,4 @@
-package com.blamejared.mas.client.gui.generatorCoal;
+package com.blamejared.mas.client.gui.generatorcoal;
 
 import com.blamejared.mas.api.Registry;
 import com.blamejared.mas.client.gui.base.GuiBase;
@@ -28,6 +28,7 @@ public class GuiGeneratorCoal extends GuiBase {
         super.drawGuiContainerForegroundLayer(mx, my);
         
         this.drawGeneratorProgress(82, 40, tile);
-        this.drawPowerBar(tile.container);
+        this.drawPowerBar(tile.container, mx, my);
+        
     }
 }

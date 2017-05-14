@@ -2,7 +2,7 @@ package com.blamejared.mas.blocks.generators;
 
 import com.blamejared.mas.blocks.generators.base.BlockBaseGenerator;
 import com.blamejared.mas.client.gui.base.IHasGui;
-import com.blamejared.mas.client.gui.generatorTrash.*;
+import com.blamejared.mas.client.gui.generatortrash.*;
 import com.blamejared.mas.tileentities.generators.TileEntityGeneratorTrash;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.entity.player.EntityPlayer;

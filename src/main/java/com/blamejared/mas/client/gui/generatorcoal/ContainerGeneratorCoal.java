@@ -1,4 +1,4 @@
-package com.blamejared.mas.client.gui.generatorCoal;
+package com.blamejared.mas.client.gui.generatorcoal;
 
 import com.blamejared.mas.client.gui.base.ContainerBase;
 import com.blamejared.mas.client.gui.slot.SlotTileDep;

@@ -1,4 +1,4 @@
-package com.blamejared.mas.client.gui.generatorTrash;
+package com.blamejared.mas.client.gui.generatortrash;
 
 import com.blamejared.mas.client.gui.base.ContainerBase;
 import com.blamejared.mas.client.gui.slot.SlotTileDep;
