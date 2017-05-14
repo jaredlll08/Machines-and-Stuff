@@ -14,7 +14,6 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.relauncher.*;
 
 /**
  * Created by Jared on 5/3/2016.
@@ -36,21 +35,9 @@ public abstract class BlockMachine extends BlockContainer {
         return new BlockStateContainer(this, new IProperty[]{FACING, isActive});
     }
     
-    /**
-     * Called by ItemBlocks just before a block is actually set in the world, to
-     * allow for adjustments to the IBlockstate
-     */
-    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+    @Override
+    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite()).withProperty(isActive, false);
-    }
-    
-    /**
-     * Possibly modify the given BlockState before rendering it on an Entity
-     * (Minecarts, Endermen, ...)
-     */
-    @SideOnly(Side.CLIENT)
-    public IBlockState getStateForEntityRender(IBlockState state) {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.SOUTH).withProperty(isActive, false);
     }
     
     /**
