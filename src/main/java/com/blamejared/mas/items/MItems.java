@@ -17,8 +17,10 @@ public class MItems {
     public static Map<String, Item> renderMap = new HashMap<String, Item>();
     public static Map<Item, int[]> colourMap = new HashMap<>();
     
-    public static void preInit() {
+    public static Item WRENCH = new Item().setFull3D();
     
+    public static void preInit() {
+        registerItem(WRENCH, "wrench", "wrench");
     }
     
     public static void registerItem(Item item, String name, String key) {
