@@ -5,20 +5,24 @@ import com.blamejared.mas.network.PacketHandler;
 import com.blamejared.mas.network.messages.tiles.misc.MessageAccumulator;
 import net.darkhax.tesla.api.implementation.BaseTeslaContainer;
 import net.darkhax.tesla.capability.TeslaCapabilities;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.*;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 import javax.annotation.Nullable;
+import java.util.*;
 
 public class TileEntityAccumulator extends TileEntity implements ITickable {
     
     public BaseTeslaContainer container;
     public EnumAccumulator enumAccumulator;
+    
+    private List<AccumulatorInfo> accumulatorInfos = new ArrayList<>();;
     
     public TileEntityAccumulator() {
     }
@@ -26,22 +30,28 @@ public class TileEntityAccumulator extends TileEntity implements ITickable {
     public TileEntityAccumulator(EnumAccumulator acc) {
         container = new BaseTeslaContainer(acc.getCapacity(), acc.getInput(), acc.getOutput());
         this.enumAccumulator = acc;
+        for(EnumFacing facing : EnumFacing.values()) {
+            accumulatorInfos.add(new AccumulatorInfo(acc, facing, true));
+        }
     }
     
     protected boolean pushEnergy() {
         boolean pushed = false;
-        for(EnumFacing dir : EnumFacing.VALUES) {
-            TileEntity tile = world.getTileEntity(getPos().offset(dir));
-            if(tile != null)
-                if(tile.hasCapability(TeslaCapabilities.CAPABILITY_CONSUMER, dir.getOpposite()) || tile.hasCapability(TeslaCapabilities.CAPABILITY_HOLDER, dir.getOpposite())) {
-                    BaseTeslaContainer cont = (BaseTeslaContainer) tile.getCapability(TeslaCapabilities.CAPABILITY_HOLDER, dir.getOpposite());
-                    container.takePower(cont.givePower(container.takePower(container.getOutputRate(), true), false), false);
-                    if(!world.isRemote) {
-                        tile.markDirty();
-                        markDirty();
-                        pushed = true;
+        for(AccumulatorInfo info : accumulatorInfos) {
+            if(info.isEnabled()) {
+                EnumFacing dir = info.getFacing();
+                TileEntity tile = world.getTileEntity(getPos().offset(dir));
+                if(tile != null)
+                    if(tile.hasCapability(TeslaCapabilities.CAPABILITY_CONSUMER, dir.getOpposite()) || tile.hasCapability(TeslaCapabilities.CAPABILITY_HOLDER, dir.getOpposite())) {
+                        BaseTeslaContainer cont = (BaseTeslaContainer) tile.getCapability(TeslaCapabilities.CAPABILITY_HOLDER, dir.getOpposite());
+                        container.takePower(cont.givePower(container.takePower(container.getOutputRate(), true), false), false);
+                        if(!world.isRemote) {
+                            tile.markDirty();
+                            markDirty();
+                            pushed = true;
+                        }
                     }
-                }
+            }
         }
         return pushed;
     }
@@ -56,7 +66,6 @@ public class TileEntityAccumulator extends TileEntity implements ITickable {
         if(!world.isRemote) {
             if(sendUpdate) {
                 this.markDirty();
-                this.world.notifyNeighborsOfStateChange(getPos(), getBlockType(), true);
             }
         }
     }
@@ -65,13 +74,17 @@ public class TileEntityAccumulator extends TileEntity implements ITickable {
     public void markDirty() {
         super.markDirty();
         PacketHandler.INSTANCE.sendToAllAround(new MessageAccumulator(this), new NetworkRegistry.TargetPoint(this.world.provider.getDimension(), (double) this.getPos().getX(), (double) this.getPos().getY(), (double) this.getPos().getZ(), 128d));
-        this.world.notifyNeighborsOfStateChange(getPos(), getBlockType(), true);
     }
     
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
         nbt.setTag("TeslaContainer", this.container.serializeNBT());
+        NBTTagList list = new NBTTagList();
+        for(AccumulatorInfo info : accumulatorInfos) {
+            list.appendTag(info.writeToNBT());
+        }
+        nbt.setTag("AccumulatorInfos", list);
         return nbt;
     }
     
@@ -79,6 +92,11 @@ public class TileEntityAccumulator extends TileEntity implements ITickable {
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
         this.container = new BaseTeslaContainer(nbt.getCompoundTag("TeslaContainer"));
+        NBTTagList list = nbt.getTagList("AccumulatorInfos", Constants.NBT.TAG_COMPOUND);
+        this.accumulatorInfos.clear();
+        for(int i = 0; i < list.tagCount(); i++) {
+            this.accumulatorInfos.add(AccumulatorInfo.readFromNBT(list.getCompoundTagAt(i)));
+        }
     }
     
     @Nullable
@@ -115,5 +133,23 @@ public class TileEntityAccumulator extends TileEntity implements ITickable {
         if(capability == TeslaCapabilities.CAPABILITY_HOLDER)
             return true;
         return super.hasCapability(capability, facing);
+    }
+    
+    public List<AccumulatorInfo> getAccumulatorInfos() {
+        return accumulatorInfos;
+    }
+    
+    public void setAccumulatorInfos(List<AccumulatorInfo> accumulatorInfos) {
+        this.accumulatorInfos = accumulatorInfos;
+    }
+    
+    public AccumulatorInfo getInfoForFace(EnumFacing face){
+        AccumulatorInfo info = null;
+        for(AccumulatorInfo accumulatorInfo : getAccumulatorInfos()) {
+            if(accumulatorInfo.getFacing() == face){
+                info = accumulatorInfo;
+            }
+        }
+        return info;
     }
 }
