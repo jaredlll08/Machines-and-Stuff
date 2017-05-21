@@ -41,8 +41,8 @@ public abstract class GeneratorBase extends TileEntity implements ITickable {
         for(EnumFacing dir : EnumFacing.VALUES) {
             TileEntity tile = world.getTileEntity(getPos().offset(dir));
             if(tile != null)
-                if(tile.hasCapability(TeslaCapabilities.CAPABILITY_CONSUMER, dir.getOpposite()) || tile.hasCapability(TeslaCapabilities.CAPABILITY_HOLDER, dir.getOpposite())) {
-                    BaseTeslaContainer cont = (BaseTeslaContainer) tile.getCapability(TeslaCapabilities.CAPABILITY_HOLDER, dir.getOpposite());
+                if(tile.hasCapability(TeslaCapabilities.CAPABILITY_CONSUMER, dir.getOpposite())) {
+                    BaseTeslaContainer cont = (BaseTeslaContainer) tile.getCapability(TeslaCapabilities.CAPABILITY_CONSUMER, dir.getOpposite());
                     container.takePower(cont.givePower(container.takePower(container.getOutputRate(), true), false), false);
                     if(!world.isRemote) {
                         tile.markDirty();
