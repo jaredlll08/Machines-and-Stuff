@@ -137,6 +137,12 @@ curseforge {
         changelog = getGitChangelog()
         changelogType = 'markdown'
         addGameVersion "${minecraft_version}"
+		mainArtifact(jar) {
+		
+            relations {
+                requiredLibrary 'tesla'
+            }
+        }
         addArtifact(createDeobf)
         addArtifact(createSources)
         addArtifact(createJavadoc)
