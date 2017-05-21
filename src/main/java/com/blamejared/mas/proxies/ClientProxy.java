@@ -40,7 +40,6 @@ public class ClientProxy extends CommonProxy {
         for(Map.Entry<String, Block> ent : MBlocks.renderMap.entrySet()) {
             renderItem.getItemModelMesher().register(Item.getItemFromBlock(ent.getValue()), 0, new ModelResourceLocation(Reference.MODID + ":" + ent.getKey(), "inventory"));
         }
-//        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrank.class, new RenderCrank());
         ClientRegistry.registerTileEntity(TileEntityCrank.class, "crank", new RenderCrank());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAccumulator.class, new RenderAccumulator());
     
