@@ -12,7 +12,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
@@ -77,7 +76,7 @@ public class BlockAccumulator extends Block implements ITileEntityProvider, IHas
                     face = face.getOpposite();
                 }
                 AccumulatorInfo info = tile.getInfoForFace(face);
-                tile.getInfoForFace(face).setEnabled(!info.isEnabled());
+                tile.getInfoForFace(face).setIoInfo(info.getIoInfo().getNext());
                 tile.markDirty();
                 return true;
             } else

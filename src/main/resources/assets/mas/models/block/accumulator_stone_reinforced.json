@@ -1,87 +1,56 @@
 {
-  "__comment": "Designed by Jared with BDcraft Cubik PRO 0.95 Beta - http://bdcraft.net",
+  "__comment": "Designed by Jared with BDcraft Cubik PRO 0.96 Beta - http://bdcraft.net",
   "textures": {
     "particle": "mas:blocks/accumulator_stone_reinforced",
-    "texture": "mas:blocks/accumulator_stone_reinforced",
-    "inner": "mas:blocks/accumulator_inner"
+    "accumulator_stone_reinforced": "mas:blocks/accumulator_stone_reinforced",
+    "accumulator_inner": "mas:blocks/accumulator_inner",
+    "accumulator_direction": "mas:blocks/accumulator_direction"
   },
   "elements": [
-
-{
-  "from": [ 0, 0, 0 ],
-  "to": [ 16, 16, 16 ],
-  "faces": {
-    "down":  { "uv": [ 16, 16, 0, 0 ], "texture": "#inner", "tintindex": 0 },
-    "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#inner", "tintindex": 1 },
-    "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#inner", "tintindex": 2 },
-    "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#inner", "tintindex": 3 },
-    "west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#inner", "tintindex": 4 },
-    "east":  { "uv": [ 0, 0, 16, 16 ], "texture": "#inner", "tintindex": 5 }
-  }
-},
     {
       "from": [ 0, 0, 0 ],
       "to": [ 16, 16, 16 ],
       "faces": {
-        "down": {
-          "uv": [
-            16,
-            16,
-            0,
-            0
-          ],
-          "texture": "#texture"
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
-          "texture": "#texture"
-        },
-        "north": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
-          "texture": "#texture"
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
-          "texture": "#texture"
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
-          "texture": "#texture"
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
-          "texture": "#texture"
-        }
+        "down":  { "uv": [ 16, 16, 0, 0 ], "texture": "#accumulator_stone_reinforced", "cullface": "down" },
+        "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#accumulator_stone_reinforced", "cullface": "up" },
+        "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#accumulator_stone_reinforced" },
+        "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#accumulator_stone_reinforced", "cullface": "south" },
+        "west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#accumulator_stone_reinforced", "cullface": "west" },
+        "east":  { "uv": [ 0, 0, 16, 16 ], "texture": "#accumulator_stone_reinforced", "cullface": "east" }
+      }
+    },
+    {
+      "from": [ 0, 0, 0 ],
+      "to": [ 16, 16, 16 ],
+      "faces": {
+        "down":  { "uv": [ 16, 16, 0, 0 ], "texture": "#accumulator_inner", "cullface": "down", "tintindex": 6 },
+        "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#accumulator_inner", "cullface": "up", "tintindex": 6 },
+        "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#accumulator_inner", "tintindex": 6 },
+        "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#accumulator_inner", "cullface": "south", "tintindex": 6 },
+        "west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#accumulator_inner", "cullface": "west", "tintindex": 6 },
+        "east":  { "uv": [ 0, 0, 16, 16 ], "texture": "#accumulator_inner", "cullface": "east", "tintindex": 6 }
+      }
+    },
+    {
+      "from": [ 0, 0, 0 ],
+      "to": [ 16, 16, 16 ],
+      "faces": {
+        "down":  { "uv": [ 16, 16, 0, 0 ], "texture": "#accumulator_direction", "cullface": "down", "tintindex": 0 },
+        "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#accumulator_direction", "cullface": "up", "tintindex": 1 },
+        "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#accumulator_direction", "tintindex": 2 },
+        "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#accumulator_direction", "cullface": "south", "tintindex": 3 },
+        "west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#accumulator_direction", "cullface": "west", "tintindex": 4 },
+        "east":  { "uv": [ 0, 0, 16, 16 ], "texture": "#accumulator_direction", "cullface": "east", "tintindex": 5 }
       }
     }
   ],
   "display": {
     "thirdperson_righthand": {
+      "rotation": [ 75, 45, 0 ],
+      "translation": [ 0, 2.5, 0 ],
+      "scale": [ 0.375, 0.375, 0.375 ]
+    },
+    "thirdperson_lefthand": {
       "rotation": [ 75, 45, 0 ],
       "translation": [ 0, 2.5, 0 ],
       "scale": [ 0.375, 0.375, 0.375 ]

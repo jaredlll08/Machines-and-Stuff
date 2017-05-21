@@ -45,18 +45,24 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAccumulator.class, new RenderAccumulator());
     
         Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler((state, worldIn, pos, tintIndex) -> {
-            if(tintIndex >= 0 && tintIndex < EnumFacing.values().length) {
-                TileEntityAccumulator tile = (TileEntityAccumulator) worldIn.getTileEntity(pos);
-                if(tile != null && tile.container != null) {
-                    long energy = tile.container.getStoredPower();
-                    long cap = tile.container.getCapacity();
-                    if(!tile.getInfoForFace(EnumFacing.VALUES[tintIndex]).isEnabled()) {
-                        return 0xFFFFFF;
+            TileEntityAccumulator tile = (TileEntityAccumulator) worldIn.getTileEntity(pos);
+            if(tile != null && tile.container != null) {
+                long energy = tile.container.getStoredPower();
+                long cap = tile.container.getCapacity();
+                if(tintIndex >= 0 && tintIndex < 6) {
+                    switch(tile.getInfoForFace(EnumFacing.VALUES[tintIndex]).getIoInfo()) {
+                        case DISABLED:
+                            return 0x3D3C3A;
+                        case INPUT:
+                            return 0x4863A0;
+                        case OUTPUT:
+                            return 0xFF8040;
                     }
+                }
+                if(tintIndex == 6) {
                     if(cap != 0 && energy != 0) {
-                        Color col = Color.white;
-                      
-                        
+                        Color col;
+                
                         switch(tile.enumAccumulator) {
                             case REINFROCED_STONE:
                                 col = new Color(energy / (cap + 0.0f), 0, 0, 1);
@@ -75,7 +81,7 @@ public class ClientProxy extends CommonProxy {
                                 break;
                         }
                         return col.getRGB();
-
+                
                     }
                     return 0;
                 }

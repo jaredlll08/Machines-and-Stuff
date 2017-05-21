@@ -8,12 +8,12 @@ public class AccumulatorInfo {
     
     private final EnumAccumulator type;
     private final EnumFacing facing;
-    private boolean enabled;
+    private AccumulatorIOInfo ioInfo;
     
-    public AccumulatorInfo(EnumAccumulator type, EnumFacing facing, boolean enabled) {
+    public AccumulatorInfo(EnumAccumulator type, EnumFacing facing, AccumulatorIOInfo ioInfo) {
         this.type = type;
         this.facing = facing;
-        this.enabled = enabled;
+        this.ioInfo = ioInfo;
     }
     
     public EnumAccumulator getType() {
@@ -24,33 +24,43 @@ public class AccumulatorInfo {
         return facing;
     }
     
-    public boolean isEnabled() {
-        return enabled;
+    public AccumulatorIOInfo getIoInfo() {
+        return ioInfo;
     }
     
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public void setIoInfo(AccumulatorIOInfo ioInfo) {
+        this.ioInfo = ioInfo;
     }
     
     public static AccumulatorInfo readFromNBT(NBTTagCompound tag) {
-        return new AccumulatorInfo(EnumAccumulator.values()[tag.getInteger("type")], EnumFacing.values()[tag.getInteger("facing")], tag.getBoolean("enabled"));
+        return new AccumulatorInfo(EnumAccumulator.values()[tag.getInteger("type")], EnumFacing.values()[tag.getInteger("facing")], AccumulatorIOInfo.valueOf(tag.getString("ioInfo")));
     }
     
     public NBTTagCompound writeToNBT() {
         NBTTagCompound tag = new NBTTagCompound();
         tag.setInteger("type", type.ordinal());
         tag.setInteger("facing", facing.ordinal());
-        tag.setBoolean("enabled", enabled);
+        tag.setString("ioInfo", ioInfo.name());
         return tag;
     }
+    
     
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("AccumulatorInfo{");
         sb.append("type=").append(type);
         sb.append(", facing=").append(facing);
-        sb.append(", enabled=").append(enabled);
+        sb.append(", ioInfo=").append(ioInfo);
         sb.append('}');
         return sb.toString();
+    }
+    
+    public enum AccumulatorIOInfo {
+        INPUT, OUTPUT, DISABLED;
+    
+        public AccumulatorIOInfo getNext() {
+            return values()[(ordinal() + 1) % values().length];
+        }
+        
     }
 }

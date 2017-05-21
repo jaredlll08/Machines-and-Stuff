@@ -39,13 +39,12 @@ public class RenderAccumulator extends TileEntitySpecialRenderer<TileEntityAccum
         BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
         BlockModelShapes modelShapes = blockrendererdispatcher.getBlockModelShapes();
         IBakedModel ibakedmodel = modelShapes.getModelForState(state);
-        final IBlockAccess worldWrapper = world;
         Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
         
         for(BlockRenderLayer layer : BlockRenderLayer.values()) {
             if(state.getBlock().canRenderInLayer(state, layer)) {
                 ForgeHooksClient.setRenderLayer(layer);
-                blockrendererdispatcher.getBlockModelRenderer().renderModel(worldWrapper, ibakedmodel, state, pos, wr, true);
+                blockrendererdispatcher.getBlockModelRenderer().renderModel(world, ibakedmodel, state, pos, wr, true);
             }
         }
         ForgeHooksClient.setRenderLayer(null);

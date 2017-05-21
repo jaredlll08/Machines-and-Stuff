@@ -22,7 +22,7 @@ public class TileEntityAccumulator extends TileEntity implements ITickable {
     public BaseTeslaContainer container;
     public EnumAccumulator enumAccumulator;
     
-    private List<AccumulatorInfo> accumulatorInfos = new ArrayList<>();;
+    private List<AccumulatorInfo> accumulatorInfos = new ArrayList<>();
     
     public TileEntityAccumulator() {
     }
@@ -31,19 +31,19 @@ public class TileEntityAccumulator extends TileEntity implements ITickable {
         container = new BaseTeslaContainer(acc.getCapacity(), acc.getInput(), acc.getOutput());
         this.enumAccumulator = acc;
         for(EnumFacing facing : EnumFacing.values()) {
-            accumulatorInfos.add(new AccumulatorInfo(acc, facing, true));
+            accumulatorInfos.add(new AccumulatorInfo(acc, facing, AccumulatorInfo.AccumulatorIOInfo.INPUT));
         }
     }
     
     protected boolean pushEnergy() {
         boolean pushed = false;
         for(AccumulatorInfo info : accumulatorInfos) {
-            if(info.isEnabled()) {
+            if(info.getIoInfo() == AccumulatorInfo.AccumulatorIOInfo.OUTPUT) {
                 EnumFacing dir = info.getFacing();
                 TileEntity tile = world.getTileEntity(getPos().offset(dir));
                 if(tile != null)
-                    if(tile.hasCapability(TeslaCapabilities.CAPABILITY_CONSUMER, dir.getOpposite()) || tile.hasCapability(TeslaCapabilities.CAPABILITY_HOLDER, dir.getOpposite())) {
-                        BaseTeslaContainer cont = (BaseTeslaContainer) tile.getCapability(TeslaCapabilities.CAPABILITY_HOLDER, dir.getOpposite());
+                    if(tile.hasCapability(TeslaCapabilities.CAPABILITY_CONSUMER, dir.getOpposite())) {
+                        BaseTeslaContainer cont = (BaseTeslaContainer) tile.getCapability(TeslaCapabilities.CAPABILITY_CONSUMER, dir.getOpposite());
                         container.takePower(cont.givePower(container.takePower(container.getOutputRate(), true), false), false);
                         if(!world.isRemote) {
                             tile.markDirty();
@@ -119,18 +119,28 @@ public class TileEntityAccumulator extends TileEntity implements ITickable {
     }
     
     @Override
-    @SuppressWarnings("unchecked")
     public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-        if(capability == TeslaCapabilities.CAPABILITY_HOLDER)
+        if(capability == TeslaCapabilities.CAPABILITY_PRODUCER && getInfoForFace(facing).getIoInfo() == AccumulatorInfo.AccumulatorIOInfo.OUTPUT) {
             return (T) this.container;
-        
+        }
+        if(capability == TeslaCapabilities.CAPABILITY_CONSUMER && getInfoForFace(facing).getIoInfo() == AccumulatorInfo.AccumulatorIOInfo.INPUT) {
+            return (T) this.container;
+        }
+        if(capability == TeslaCapabilities.CAPABILITY_HOLDER && getInfoForFace(facing).getIoInfo() != AccumulatorInfo.AccumulatorIOInfo.DISABLED)
+            return (T) this.container;
         return super.getCapability(capability, facing);
     }
     
     
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-        if(capability == TeslaCapabilities.CAPABILITY_HOLDER)
+        if(capability == TeslaCapabilities.CAPABILITY_PRODUCER && getInfoForFace(facing).getIoInfo() == AccumulatorInfo.AccumulatorIOInfo.OUTPUT) {
+            return true;
+        }
+        if(capability == TeslaCapabilities.CAPABILITY_CONSUMER && getInfoForFace(facing).getIoInfo() == AccumulatorInfo.AccumulatorIOInfo.INPUT) {
+            return true;
+        }
+        if(capability == TeslaCapabilities.CAPABILITY_HOLDER && getInfoForFace(facing).getIoInfo() != AccumulatorInfo.AccumulatorIOInfo.DISABLED)
             return true;
         return super.hasCapability(capability, facing);
     }
