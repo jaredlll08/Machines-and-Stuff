@@ -1,10 +1,11 @@
 package com.blamejared.mas.data;
 
 import com.blamejared.mas.blocks.MBlocks;
+import com.blamejared.mas.items.MItems;
 import net.minecraft.init.*;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.*;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class RecipeData {
     
@@ -15,6 +16,7 @@ public class RecipeData {
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(MBlocks.STONE_REINFORCED), "sis", "isi", "sis", 'i', "ingotIron", 's', "stone"));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(MBlocks.ACCUMULATOR_STONE_REINFORCED), "sis", "iri", "sis", 'i', "ingotIron", 's', new ItemStack(MBlocks.STONE_REINFORCED), 'r', "blockRedstone"));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(MBlocks.ACCUMULATOR_IRON), "sis", "iri", "sis", 'i', "blockIron", 'r', new ItemStack(MBlocks.ACCUMULATOR_STONE_REINFORCED), 's', new ItemStack(MBlocks.STONE_REINFORCED)));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(MItems.WRENCH), "s s", "sss", " s ", 's', new ItemStack(MBlocks.STONE_REINFORCED)));
     
     }
     
