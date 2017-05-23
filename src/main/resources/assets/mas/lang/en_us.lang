@@ -9,4 +9,5 @@ tile.stone_reinforced.name=Reinforced Stone
 tile.accumulator_stone_reinforced.name=Reinforced Stone Accumulator
 tile.accumulator_iron.name=Iron Accumulator
 tile.machine_furnace.name=Fluxed Furnace
+tile.machine_crusher.name=Fluxed Crusher
 item.wrench.name=Wrench

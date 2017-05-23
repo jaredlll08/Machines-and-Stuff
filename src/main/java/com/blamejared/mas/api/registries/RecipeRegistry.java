@@ -15,12 +15,6 @@ public class RecipeRegistry {
     private static HashMap<String, RecipeMachineBase> sawmillRecipes = new HashMap<String, RecipeMachineBase>();
     
     
-    public static void registerCrusherRecipe(String seedID, RecipeMachineBase recipe) {
-        if(!crusherRecipes.containsKey(seedID)) {
-            crusherRecipes.put(seedID, recipe);
-        }
-    }
-    
     public static void registerCrusherRecipe(RecipeMachineBase recipe) {
         String id = String.format("%s;%s:%s;%s", recipe.getInput().getUnlocalizedName(), recipe.getInput().getItemDamage(), recipe.getOutput().getUnlocalizedName(), recipe.getOutput().getItemDamage());
         if(!crusherRecipes.containsKey(id)) {

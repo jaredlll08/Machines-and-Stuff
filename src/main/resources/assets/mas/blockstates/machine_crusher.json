@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "active=false,facing=north": {
+      "model": "mas:machine_crusher"
+    },
+    "active=false,facing=south": {
+      "model": "mas:machine_crusher",
+      "y": 180
+    },
+    "active=false,facing=west": {
+      "model": "mas:machine_crusher",
+      "y": 270
+    },
+    "active=false,facing=east": {
+      "model": "mas:machine_crusher",
+      "y": 90
+    },
+    "active=true,facing=north": {
+      "model": "mas:machine_crusher_active"
+    },
+    "active=true,facing=south": {
+      "model": "mas:machine_crusher_active",
+      "y": 180
+    },
+    "active=true,facing=west": {
+      "model": "mas:machine_crusher_active",
+      "y": 270
+    },
+    "active=true,facing=east": {
+      "model": "mas:machine_crusher_active",
+      "y": 90
+    }
+  }
+}

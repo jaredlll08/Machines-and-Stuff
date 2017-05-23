@@ -9,9 +9,9 @@ import java.util.HashMap;
 /**
  * Created by Jared on 5/25/2016.
  */
-public class TileEntityMachineFurnace extends TileEntityMachineBase<RecipeMachineBase> {
+public class TileEntityMachineCrusher extends TileEntityMachineBase<RecipeMachineBase> {
     
-    public TileEntityMachineFurnace() {
+    public TileEntityMachineCrusher() {
         super(32000, 2, 250, 250);
     }
     
@@ -22,17 +22,17 @@ public class TileEntityMachineFurnace extends TileEntityMachineBase<RecipeMachin
     
     @Override
     public RecipeMachineBase getRecipe(String index) {
-        return RecipeRegistry.getFurnaceRecipeByID(index);
+        return RecipeRegistry.getCrusherRecipeByID(index);
     }
     
     @Override
     public HashMap<String, RecipeMachineBase> getRecipes() {
-        return RecipeRegistry.getAllFurnaceRecipes();
+        return RecipeRegistry.getAllCrusherRecipes();
     }
     
     @Override
     public boolean isValidInput(ItemStack stack) {
-        return RecipeRegistry.isFurnaceInput(stack);
+        return RecipeRegistry.isCrusherInput(stack);
     }
     
 }

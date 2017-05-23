@@ -42,9 +42,9 @@ public abstract class TileEntityMachineBase<E extends RecipeMachineBase> extends
     public TileEntityMachineBase() {
     }
     
-    public TileEntityMachineBase(int energyCap, int invSize) {
-        container = new BaseTeslaContainer(10000, 250, 250);
-        itemStackHandler = new ItemStackHandlerMachine(this, 2);
+    public TileEntityMachineBase(long energyCap, int invSize, long inputCap, long outputCap) {
+        container = new BaseTeslaContainer(energyCap, inputCap, outputCap);
+        itemStackHandler = new ItemStackHandlerMachine(this, invSize);
     }
     
     public int getTotalTime() {
@@ -79,7 +79,7 @@ public abstract class TileEntityMachineBase<E extends RecipeMachineBase> extends
         boolean canWork = false;
         boolean sendUpdate = false;
         // If we are still working then cycle the counter down 1
-        if(this.deviceCycleTime > 0) {
+        if(this.deviceCycleTime > 0 && container.getStoredPower()>getEnergyUsed()) {
             this.deviceCycleTime--;
             if(!world.getBlockState(getPos()).getValue(BlockMachine.isActive)) {
                 ((BlockMachine) world.getBlockState(getPos()).getBlock()).setState(true, this.world, getPos());

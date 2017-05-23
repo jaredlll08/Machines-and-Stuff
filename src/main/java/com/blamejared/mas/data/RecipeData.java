@@ -8,7 +8,7 @@ import net.minecraft.init.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.*;
 
 import java.util.Map;
 
@@ -31,4 +31,9 @@ public class RecipeData {
             RecipeRegistry.registerFurnaceRecipe(new RecipeMachineBase(ent.getKey().copy(), ent.getValue().copy(), ent.getKey().getCount(), ent.getValue().getCount()));
         }
     }
+    
+    private static void registerCrusherRecipes(){
+        //TODO add recipes
+    }
+    
 }
