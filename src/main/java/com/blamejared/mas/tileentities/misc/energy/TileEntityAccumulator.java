@@ -131,7 +131,6 @@ public class TileEntityAccumulator extends TileEntity implements ITickable {
         return super.getCapability(capability, facing);
     }
     
-    
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
         if(capability == TeslaCapabilities.CAPABILITY_PRODUCER && getInfoForFace(facing).getIoInfo() == AccumulatorInfo.AccumulatorIOInfo.OUTPUT) {

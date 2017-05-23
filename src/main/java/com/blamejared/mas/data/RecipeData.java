@@ -1,11 +1,16 @@
 package com.blamejared.mas.data;
 
+import com.blamejared.mas.api.recipes.machines.RecipeMachineBase;
+import com.blamejared.mas.api.registries.RecipeRegistry;
 import com.blamejared.mas.blocks.MBlocks;
 import com.blamejared.mas.items.MItems;
 import net.minecraft.init.*;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+
+import java.util.Map;
 
 public class RecipeData {
     
@@ -18,6 +23,12 @@ public class RecipeData {
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(MBlocks.ACCUMULATOR_IRON), "sis", "iri", "sis", 'i', "blockIron", 'r', new ItemStack(MBlocks.ACCUMULATOR_STONE_REINFORCED), 's', new ItemStack(MBlocks.STONE_REINFORCED)));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(MItems.WRENCH), "s s", "sss", " s ", 's', new ItemStack(MBlocks.STONE_REINFORCED)));
     
+        registerFurnaceRecipes();
     }
     
+    private static void registerFurnaceRecipes() {
+        for(Map.Entry<ItemStack, ItemStack> ent : FurnaceRecipes.instance().getSmeltingList().entrySet()) {
+            RecipeRegistry.registerFurnaceRecipe(new RecipeMachineBase(ent.getKey().copy(), ent.getValue().copy(), ent.getKey().getCount(), ent.getValue().getCount()));
+        }
+    }
 }

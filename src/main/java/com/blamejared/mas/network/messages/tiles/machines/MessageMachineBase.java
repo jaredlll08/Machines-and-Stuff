@@ -9,9 +9,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.*;
 
-/**
- * Created by Jared on 5/31/2016.
- */
 public class MessageMachineBase implements IMessage, IMessageHandler<MessageMachineBase, IMessage> {
     
     private int x;

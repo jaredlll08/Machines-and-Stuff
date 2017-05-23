@@ -8,4 +8,5 @@ tile.crank.name=Crank
 tile.stone_reinforced.name=Reinforced Stone
 tile.accumulator_stone_reinforced.name=Reinforced Stone Accumulator
 tile.accumulator_iron.name=Iron Accumulator
+tile.machine_furnace.name=Fluxed Furnace
 item.wrench.name=Wrench

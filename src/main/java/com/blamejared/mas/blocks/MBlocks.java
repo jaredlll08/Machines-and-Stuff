@@ -2,9 +2,11 @@ package com.blamejared.mas.blocks;
 
 import com.blamejared.mas.api.accumulators.EnumAccumulator;
 import com.blamejared.mas.blocks.generators.*;
+import com.blamejared.mas.blocks.machines.BlockFluxfurnace;
 import com.blamejared.mas.blocks.misc.*;
 import com.blamejared.mas.reference.Reference;
 import com.blamejared.mas.tileentities.generators.*;
+import com.blamejared.mas.tileentities.machine.TileEntityMachineFurnace;
 import com.blamejared.mas.tileentities.misc.TileEntityCrank;
 import com.blamejared.mas.tileentities.misc.energy.TileEntityAccumulator;
 import net.minecraft.block.Block;
@@ -33,6 +35,9 @@ public class MBlocks {
     public static BlockAccumulator ACCUMULATOR_STONE_REINFORCED = new BlockAccumulator(EnumAccumulator.REINFROCED_STONE);
     public static BlockAccumulator ACCUMULATOR_IRON = new BlockAccumulator(EnumAccumulator.IRON);
     
+    
+    public static Block MACHINE_FURNACE = new BlockFluxfurnace();
+    
     public static void preInit() {
         registerBlock(GENERATOR_COAL, "generator_coal", TileEntityGeneratorCoal.class);
         registerBlock(GENERATOR_TRASH, "generator_trash", TileEntityGeneratorTrash.class);
@@ -40,6 +45,7 @@ public class MBlocks {
         registerBlock(STONE_REINFORCED, "stone_reinforced");
         registerBlock(ACCUMULATOR_STONE_REINFORCED, "accumulator_stone_reinforced", TileEntityAccumulator.class);
         registerBlock(ACCUMULATOR_IRON, "accumulator_iron");
+        registerBlock(MACHINE_FURNACE, "machine_furnace", TileEntityMachineFurnace.class);
     
     }
     

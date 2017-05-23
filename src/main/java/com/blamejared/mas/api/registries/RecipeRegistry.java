@@ -73,7 +73,7 @@ public class RecipeRegistry {
     }
     
     public static boolean isFurnaceInput(ItemStack stack) {
-        if(stack != null && stack.getItem() != null) {
+        if(!stack.isEmpty()) {
             for(Map.Entry<String, RecipeMachineBase> ent : getAllFurnaceRecipes().entrySet()) {
                 if(compareStacks(ent.getValue().getInput(), stack))
                     return true;

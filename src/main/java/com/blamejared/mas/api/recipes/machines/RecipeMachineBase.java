@@ -37,7 +37,7 @@ public class RecipeMachineBase {
                 return true;
             }
         }
-        return stack != null && OreDictionary.itemMatches(stack, input, false);
+        return !stack.isEmpty() && OreDictionary.itemMatches(stack, input, false);
     }
     
     private boolean matches(String oreDict) {

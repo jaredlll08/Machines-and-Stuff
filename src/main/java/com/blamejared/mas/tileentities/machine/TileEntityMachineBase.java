@@ -95,11 +95,11 @@ public abstract class TileEntityMachineBase<E extends RecipeMachineBase> extends
                 sendUpdate = true;
             }
             E recipe = null;
-            if(itemStackHandler.getStackInSlot(0) != null && !getRecipeIndex().isEmpty() && this.container.getStoredPower() > 0) {
+            if(!itemStackHandler.getStackInSlot(0).isEmpty() && !getRecipeIndex().isEmpty() && this.container.getStoredPower() > 0) {
                 recipe = getRecipe(getRecipeIndex());
                 if(recipe != null) {
                     if(this.container.getStoredPower() >= getEnergyUsed()) {
-                        if(itemStackHandler.getStackInSlot(1) != null) {
+                        if(!itemStackHandler.getStackInSlot(1).isEmpty()) {
                             if(NBTHelper.isInputEqual(recipe.getOutput(), itemStackHandler.getStackInSlot(1))) {
                                 if(itemStackHandler.getStackInSlot(1).getCount() + recipe.getOutputAmount() < itemStackHandler.getStackInSlot(1).getMaxStackSize()) {
                                     if(itemStackHandler.getStackInSlot(0).getCount() >= recipe.getInputamount()) {
@@ -214,8 +214,8 @@ public abstract class TileEntityMachineBase<E extends RecipeMachineBase> extends
     public boolean process() {
         if(!getRecipeIndex().isEmpty()) {
             E recipe = getRecipe(getRecipeIndex());
-            if(recipe != null && itemStackHandler.getStackInSlot(0) != null && recipe.matchesExact(itemStackHandler.getStackInSlot(0))) {
-                if(itemStackHandler.getStackInSlot(1) == null || NBTHelper.isInputEqual(itemStackHandler.getStackInSlot(1), recipe.getOutput())) {
+            if(recipe != null && !itemStackHandler.getStackInSlot(0).isEmpty() && recipe.matchesExact(itemStackHandler.getStackInSlot(0))) {
+                if(itemStackHandler.getStackInSlot(1).isEmpty() || NBTHelper.isInputEqual(itemStackHandler.getStackInSlot(1), recipe.getOutput())) {
                     itemStackHandler.extractItem(0, 1, false);
                     currentTime++;
                     if(currentTime >= recipe.getInputamount()) {
@@ -235,9 +235,10 @@ public abstract class TileEntityMachineBase<E extends RecipeMachineBase> extends
     
     
     public void updateCurrentRecipe() {
+        String oldIndex = getRecipeIndex();
         setRecipeIndex("");
         ItemStack inputStack = itemStackHandler.getStackInSlot(0);
-        if(inputStack != null && inputStack.getCount() > 0) {
+        if(!inputStack.isEmpty() && inputStack.getCount() > 0) {
             for(String id : getRecipes().keySet()) {
                 E recipe = getRecipe(id);
                 if(recipe != null && recipe.matchesExact(inputStack)) {
@@ -246,6 +247,13 @@ public abstract class TileEntityMachineBase<E extends RecipeMachineBase> extends
                 }
             }
         }
+        if(!oldIndex.equals(getRecipeIndex())){
+            currentTime = 0;
+            itemCycleTime = 0;
+            deviceCycleTime = 40;
+            needCycleTime = 40;
+        }
+        
     }
     
     @Override
@@ -265,7 +273,7 @@ public abstract class TileEntityMachineBase<E extends RecipeMachineBase> extends
     @Override
     public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
         
-        if(capability == TeslaCapabilities.CAPABILITY_CONSUMER || capability == TeslaCapabilities.CAPABILITY_HOLDER)
+        if(capability == TeslaCapabilities.CAPABILITY_CONSUMER)
             return (T) this.container;
         else if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return (T) this.itemStackHandler;
@@ -277,7 +285,7 @@ public abstract class TileEntityMachineBase<E extends RecipeMachineBase> extends
     
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-        if(capability == TeslaCapabilities.CAPABILITY_CONSUMER || capability == TeslaCapabilities.CAPABILITY_HOLDER)
+        if(capability == TeslaCapabilities.CAPABILITY_CONSUMER)
             return true;
         else if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return true;
