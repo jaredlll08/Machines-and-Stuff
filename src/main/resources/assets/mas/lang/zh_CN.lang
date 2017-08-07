@@ -1,0 +1,13 @@
+itemGroup.mas=Machines and Stuff
+
+tile.generator_coal.name=煤炭发电机
+tile.generator_trash.name=废料发电机
+
+
+tile.crank.name=曲柄
+tile.stone_reinforced.name=防爆石
+tile.accumulator_stone_reinforced.name=钢筋堆积物
+tile.accumulator_iron.name=铁质蓄电池
+tile.machine_furnace.name=助焊炉
+tile.machine_crusher.name=助焊剂
+item.wrench.name=扳手
